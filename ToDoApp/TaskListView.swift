@@ -19,16 +19,15 @@ struct TaskListView: View {
     var body: some View {
         NavigationStack { // iOS 16+ için, eski sürümler için NavigationView
             List {
-                // ViewModel'deki tasks dizisindeki her bir görev için bir TaskRowView oluştur.
-                // tasks dizisindeki elemanlar Identifiable olduğu için doğrudan kullanabiliriz.
-                // $taskListVM.tasks içindeki her bir task'a binding ($) ile erişmeliyiz
-                // çünkü TaskRowView @Binding var task bekliyor.
-                ForEach($taskListVM.tasks) { $task_in_loop in // $task_in_loop, taskListVM.tasks içindeki her bir Task objesine bir binding olur.
+                ForEach($taskListVM.tasks) { $task_in_loop in
                     TaskRowView(task: $task_in_loop)
+                        .id(task_in_loop.id) // HER BİR SATIRA KENDİ ID'SİNİ VER
                 }
-                .onDelete(perform: deleteTask) // Kaydırarak silme özelliği
+                .onDelete(perform: deleteTask)
             }
+            .id(UUID()) // BURAYA EKLEYEREK DENE
             .navigationTitle("Görevlerim")
+            // ...
             .toolbar {
                 // Sağ üst köşeye "Ekle" butonu
                 ToolbarItem(placement: .navigationBarTrailing) {
